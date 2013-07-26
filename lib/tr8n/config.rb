@@ -185,6 +185,10 @@ module Tr8n
       (0..16).to_a.map{|a| rand(16).to_s(16)}.join
     end
 
+    def self.default_application
+       @default_application = Tr8n::Application.find_by_key("default") || init_application
+    end
+
     # will clean all tables and initialize default values
     # never ever do it on live !!!
     def self.reset_all!
@@ -195,13 +199,37 @@ module Tr8n
       end
       puts "Done."
 
-      init_default_languages
+      init_languages
       init_glossary
-    
+      init_application
+
       puts "Done."
     end
 
-    def self.init_default_languages
+    def self.init_application
+      puts "Initializing default application..."
+
+      app = Tr8n::Application.find_by_key("default") || Tr8n::Application.create(:key => "default", :name => site_title, :description => "Automatically created during initialization")
+
+      # setup for base url
+      uri = URI.parse(base_url)
+      domain = Tr8n::TranslationDomain.find_by_name(uri.host) || Tr8n::TranslationDomain.create(:name => uri.host)
+      domain.application = app
+      domain.save
+
+      # setup for development environment
+      domain = Tr8n::TranslationDomain.find_by_name("localhost") || Tr8n::TranslationDomain.create(:name => "localhost")
+      domain.application = app
+      domain.save
+
+      ["en-US", "ru", "fr", "es"].each do |locale|
+        app.add_language(Tr8n::Language.for(locale))
+      end
+
+      app
+    end
+
+    def self.init_languages
       puts "Initializing default languages..."
       default_languages.each do |locale, info|
         puts ">> Initializing #{info[:english_name]}..."
@@ -697,11 +725,17 @@ module Tr8n
     def self.allow_nil_token_values?
       rules_engine[:allow_nil_token_values]
     end
-  
+
+    def self.token_classes(category = :data)
+      rules_engine["#{category}_token_classes".to_sym].collect{|tc| tc.constantize}
+    end
+
+    # deprecated
     def self.data_token_classes
       @data_token_classes ||= rules_engine[:data_token_classes].collect{|tc| tc.constantize}
     end
 
+    # deprecated
     def self.decoration_token_classes
       @decoration_token_classes ||= rules_engine[:decoration_token_classes].collect{|tc| tc.constantize}
     end
@@ -731,9 +765,9 @@ module Tr8n
       @default_rules[rules_type] ||= load_yml("/config/tr8n/rules/default_#{rules_type}_rules.yml", nil)
       rules_for_locale = @default_rules[rules_type][locale.to_s]
     
-      return rules_for_locale.values unless rules_for_locale.nil?
-      return [] if @default_rules[rules_type][default_locale].nil?
-      @default_rules[rules_type][default_locale].values
+      return rules_for_locale unless rules_for_locale.nil?
+      return {} if @default_rules[rules_type][default_locale].nil?
+      @default_rules[rules_type][default_locale]
     end
 
     def self.default_gender_rules(locale = default_locale)
