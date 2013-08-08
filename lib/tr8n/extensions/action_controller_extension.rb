@@ -89,20 +89,11 @@ module Tr8n
 
       def tr8n_application
         domain = Tr8n::TranslationDomain.find_or_create(request.url)
-
-        Rails.logger.info "\n\n\n ===================== \n TR8N_APPLICATION domain \n #{domain.inspect} \n\n\n"
-        Rails.logger.info "\n\n\n ===================== \n TR8N_APPLICATION domain.application \n #{domain.application.inspect} \n\n\n"
-
         domain.application
       end
 
       def init_tr8n
-
-        Rails.logger.info "\n\n\n ===================== \n INIT_TR8N \n ora inizio \n\n\n"
-
         return unless Tr8n::Config.enabled?
-
-        Rails.logger.info "\n\n\n ===================== \n INIT_TR8N \n #{tr8n_application.inspect} \n\n\n"
 
         # initialize request thread variables
         Tr8n::Config.init(tr8n_application, tr8n_init_current_locale, tr8n_init_current_user, tr8n_source, tr8n_component)

@@ -30,17 +30,10 @@ class Tr8n::PhrasesController < Tr8n::BaseController
   def index
     # In the embedded mode - there should be only one application
     begin
-      #@selected_application = send(:current_application)
+      #@selected_application = send(:current_application) ##ORIG
       @selected_application = Tr8n::Config.current_application
-      Rails.logger.info "\n\n\n ===================== \n PHRASES_CONTROLLER INDEX begin \n #{@selected_application.inspect} \n\n\n"
-
-    rescue Exception => e
-
+    rescue Exception
       @selected_application = Tr8n::Config.default_application
-
-      Rails.logger.info "\n\n\n ===================== \n PHRASES_CONTROLLER INDEX rescue \n #{@selected_application.inspect} \n\n\n"
-      Rails.logger.info "\n\n\n ===================== \n PHRASES_CONTROLLER INDEX eccez \n #{e.inspect} \n\n\n"
-
     end
 
     sources = sources_from_params

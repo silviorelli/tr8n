@@ -61,15 +61,10 @@ module Tr8n
     end
 
     def self.current_application
-      Rails.logger.info "\n\n\n ===================== \n SELF.CURRENT_APPLICATION \n #{Thread.current[:tr8n_application].inspect} \n\n\n"
       Thread.current[:tr8n_application]
     end  
 
     def self.set_application(application)
-      Rails.logger.info "\n\n\n ===================== \n SELF.SET_APPLICATION \n #{application.inspect} \n\n\n"
-      
-      #Rails.logger.info caller.join("\n")
-      
       application = Tr8n::Application.for(application) if application.is_a?(String)
       Thread.current[:tr8n_application] = application
     end
