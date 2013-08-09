@@ -64,6 +64,11 @@ class Tr8n::PhrasesController < Tr8n::BaseController
       @translated = Tr8n::Config.current_language.total_metric.translation_completeness
       @locked = Tr8n::Config.current_language.completeness
     end
+
+    Rails.logger.info "\n\n ============= 1 ============= \n\n"
+    Rails.logger.info "\n\n ============= 2 #{@translation_keys.inspect} ============= \n\n"
+    Rails.logger.info "\n\n ============= 3 #{@translation_keys.size} ============= \n\n"
+
   end
   
   def view

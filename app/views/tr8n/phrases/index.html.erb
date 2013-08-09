@@ -82,7 +82,7 @@
 		    <div class="tr8n_txtl" style="padding-top:10px; font-size:12px;"><%=trla("No phrases found")%></div>
 		<% end %>
 		
-  	<%= tr8n_paginator_tag(@translation_keys, :subject => 'phrase') if @translation_keys.any? %>	
+  	<%#= tr8n_paginator_tag(@translation_keys, :subject => 'phrase') if @translation_keys.any? %>	
 	</div>
 	<%= render :partial => "/tr8n/common/footer" %>
 	

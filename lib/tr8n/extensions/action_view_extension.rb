@@ -565,9 +565,9 @@ module Tr8n
           when 0
             tr("None found", nil, {}, options)
           when 1
-            tr("Displaying [strong: {count}] {count|#{entry_name}}", nil, {:count => 1}, options)
+            tr("Displaying [strong: {count}] #{entry_name}", nil, {:count => 1}, options)
           else
-            tr("Displaying [strong: all {count}] {count|#{entry_name}}", nil, {:count => collection.size}, options)
+            tr("Displaying [strong: all {count}] #{entry_name.pluralize}", nil, {:count => collection.size}, options)
         end
       else
         tr("Displaying #{entry_name.pluralize} [strong: {start_num} - {end_num}] of [strong: {total_count}] in total", 
