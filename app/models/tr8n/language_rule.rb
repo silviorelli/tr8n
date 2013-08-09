@@ -147,19 +147,10 @@ class Tr8n::LanguageRule < ActiveRecord::Base
 
     options = transform_params_to_options(params)
 
-    #raise options.keys.inspect
-
     matched_key = nil
     options.keys.each do |key|
       next if key == :other  # other is a special keyword - don't process it
-      
-      Rails.logger.info "\n\n ============= A ============= \n\n"
-
       rule = rule_for_keyword_and_language(key, language)
-      #raise language.inspect
-      Rails.logger.info "\n\n ============= key #{key.inspect} ============= \n\n"
-      Rails.logger.info "\n\n ============= language #{language.inspect} ============= \n\n"
-      Rails.logger.info "\n\n ============= B #{rule.inspect} ============= \n\n"
       
       unless rule
         raise Tr8n::Exception.new("Invalid rule name #{key} for transform token #{token}")

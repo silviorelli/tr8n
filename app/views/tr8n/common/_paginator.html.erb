@@ -23,13 +23,7 @@
   <table>
     <tr>
       <td class="tr8n_txtl">
-
         <%= tr8n_page_entries_info_tag(collection, options) %>
-        
-      
-        <%# entry_name = options[:subject] || (collection.empty? ? 'entry' : collection.first.class.name.underscore.sub('_', ' ').split('/').last) %>
-        <%#= tr("Displaying [strong: all {count}] #{entry_name.pluralize}", nil, {:count => collection.size}, options) %>
-
       </td>
       <td class="tr8n_txtr">
         <%= tr8n_page_links_tag(collection, options) %>
