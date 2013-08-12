@@ -95,18 +95,19 @@ private
   end
   
   def tr8n_admin_tabs
+    #DISABLED
     [
         {"title" => "Applications", "description" => "Admin tab", "controller" => "applications"},
-        {"title" => "Components", "description" => "Admin tab", "controller" => "components"},
+        #{"title" => "Components", "description" => "Admin tab", "controller" => "components"},
         {"title" => "Sources", "description" => "Admin tab", "controller" => "sources"},
         {"title" => "Languages", "description" => "Admin tab", "controller" => "language"},
         {"title" => "Translation Keys", "description" => "Admin tab", "controller" => "translation_key"},
         {"title" => "Translations", "description" => "Admin tab", "controller" => "translation"},
-        {"title" => "Translators", "description" => "Admin tab", "controller" => "translator"},
-        {"title" => "Glossary", "description" => "Admin tab", "controller" => "glossary"},
-        {"title" => "Forum", "description" => "Admin tab", "controller" => "forum"},
-        {"title" => "Metrics", "description" => "Metrics tab", "controller" => "metrics"},
-        {"title" => "Client SDK", "description" => "Admin tab", "controller" => "clientsdk"}
+        {"title" => "Translators", "description" => "Admin tab", "controller" => "translator"}#,
+        #{"title" => "Glossary", "description" => "Admin tab", "controller" => "glossary"},
+        #{"title" => "Forum", "description" => "Admin tab", "controller" => "forum"},
+        #{"title" => "Metrics", "description" => "Metrics tab", "controller" => "metrics"},
+        #{"title" => "Client SDK", "description" => "Admin tab", "controller" => "clientsdk"}
     ]
   end
   helper_method :tr8n_admin_tabs

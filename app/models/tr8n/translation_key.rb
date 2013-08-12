@@ -76,6 +76,13 @@ class Tr8n::TranslationKey < ActiveRecord::Base
     key = generate_key(label, desc).to_s
 
     tkey = Tr8n::Config.current_source.translation_key_for_key(key)
+
+    Rails.logger.info "\n\n\n current_source: #{Tr8n::Config.current_source.inspect} \n\n\n"
+    Rails.logger.info "\n\n\n key: #{key.inspect} \n\n\n"
+    Rails.logger.info "\n\n\n tkey: #{tkey.inspect} \n\n\n"
+
+
+
     tkey ||= begin
       # pp "key for label #{label} not found in cache"
       existing_key = where(:key => key).first

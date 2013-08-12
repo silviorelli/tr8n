@@ -2,6 +2,7 @@
 
 	<%= render :partial => "/tr8n/common/header" %>
 	
+	<% if false #DISABLED %>
 	<div class="section_title">
 		<% if @translator == tr8n_current_translator %>
 			<%= render :partial => "/tr8n/translator/sections" %>
@@ -22,6 +23,7 @@
 	  	<%=tra("{user}'s Dashboard", nil, :user => [@translator, :name]) %>
 	  <% end %>	  	
 	</div>
+	<% end %>
 	
 	<div class="section" style="background-color:#FDFFF0;">
 	    <table style="width:100%">
@@ -91,6 +93,8 @@
 		<% translator_metric = @translator.metric_for(lang) %>
 		
 		<div class="section_title">
+
+			<% if false #DISABLED %>
 		  <div style="<%=tr8n_style_attribute_tag('float', 'right')%>; font-size:12px; font-weight:normal; padding-top:5px;">
 		  	<%
 		  		links = []
@@ -110,6 +114,7 @@
 		  	%>
 	      <%= links.join(" | ").html_safe %>
 		  </div>
+		  <% end %>
 	
 	    <%=tr8n_toggler_tag("lang_content_#{lang.id}")%>
 	    <%=image_tag("tr8n/flags/#{lang.flag}.png", :title=>lang.native_name) if Tr8n::Config.enable_language_flags? %>&nbsp;
