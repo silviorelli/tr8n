@@ -17,7 +17,6 @@
 
 defaults: 
   enable_tr8n:                true      # enables the engine
-  enable_key_source_tracking: false     # builds the site map sources - must be enabled for the API
   enable_key_caller_tracking: false     # tracks all calls to labels with their traces - for debugging only
 
   enable_glossary_hints:      true      # shows glossary in the translator    
@@ -30,7 +29,6 @@ defaults:
 
   enable_language_flags:      true      # shows flag icons next to the languages
   enable_language_stats:      true      # shows percent completion of a language
-  language_stats_realtime:    true      # calculates language stats realtime - good for small sites
 
   enable_admin_translations:  true      # registers tr8n admin keys in the system
   enable_admin_inline_mode:   true      # allows tr8n engine sections to be inline translated
@@ -71,7 +69,7 @@ defaults:
   #
   #############################################################################
   featured_languages:         ["en-US", "es", "pt", "fr", "de", "it", "ru", "et", "iw", "zh-TW"]
-  
+
   #############################################################################
   # Set the following flag to true if you would like to allow any registered 
   # user to become a translator. The users become translators as soon as they
@@ -110,8 +108,8 @@ defaults:
   caching:
     enabled:                  false
     adapter:                  ActiveSupport::Cache
-    store:                    'memory_store'
-    version:                  1 # you can change the version to invalidate the cache
+    store:                    ['dalli_store', 'localhost:11211']
+    version:                  'dev:0' # you can change the version to invalidate the cache
 
   #############################################################################
   # By default, Tr8n will use its own logger. If you set it to false,  
@@ -126,8 +124,9 @@ defaults:
   # Site Integration Settings
   #############################################################################
   site_info:                  # used by the embedded mode
-    title:                    "Tr8n"                            # site title - provide your site title here
+    title:                    "Tr8n Translation Service"        # site title - provide your site title here
     contact_email:            "admin@tr8nhub.com"               # contact email for questions about translations
+    base_url:                 "http://localhost:3000"           # base site url
     current_locale_method:    "current_locale"                  # application controller method that sets and returns current locale
     default_url:              "/"                               # default site url where to redirect the user if Tr8n is disabled            
     login_url:                "/login"                          # url for user authorization
@@ -186,17 +185,17 @@ defaults:
     value_rule:               
       token_suffixes:         "*"
       object_method:          "to_s"
-    
+
     # minimal rank makes the translation acceptable for subsitution and counts towards the translator rank
     translation_threshold:    1
-    
+
     viewing_user_token:       "viewing_user"
     translation_rank_styles:  
       -1000..-5:              "color:red;font-weight:bold;"
       -4..-1:                 "color:red;"
       1..10:                  "color:green;"
       11..1000:               "color:green;font-weight:bold;"
-  
+
   #############################################################################
   # API Settings
   #############################################################################
@@ -207,7 +206,7 @@ defaults:
     skip_before_filters:      []       # filters from application controller
     before_filters:           []       # filters from application controller
     after_filters:            []       # filters from application controller
-  
+
   #############################################################################
   # Translator Roles         - manager level is set at 1000 and anything above
   # 
@@ -239,7 +238,7 @@ defaults:
     admin:                    10000     # reserved for admin tools
     application:              100000    # reserved for applications
     system:                   1000000   # reserved for system
-  
+
   default_translation_key_level: 0
   #############################################################################
   # Localization Settings
@@ -260,7 +259,7 @@ defaults:
       monthname_abbr:         '%b %d'               # Jul 4
       monthname_abbr_year:    '%b %d, %Y'           # Jul 4, 2008
       date_time:              '%m/%d/%Y at %H:%M'   # 01/03/1010 at 5:30
- 
+
   #############################################################################
   # You can synchronize your translation keys and translations with the 
   # tr8n.net service. This way you can get your site translated by 
@@ -268,7 +267,7 @@ defaults:
   # register as a developer, register your application and copy your app key
   # and secret in the lines below:
   #
-  #  http://tr8n.net
+  #  http://tr8nhub.com
   # 
   # To sychronize your translations run the following command: 
   # 
@@ -277,22 +276,22 @@ defaults:
   # You can run this command as often as your account on tr8n.net permits you.
   #############################################################################
   synchronization:
-    server:                   "http://tr8n.net"  # visit this url to register your application
+    server:                   "http://tr8nhub.com"  # visit this url to register your application
     key:                      "YOUR APP KEY"     # replace with your application key
     secret:                   "YOUR APP SECRET"  # replace with your application secret   
     batch_size:               50                 # how many keys to send to the server at a time - if your site supports many language, decrease the batch size
     all_languages:            false              # use only enabled languages, or all languages
     enable_push:              false              # allows translations to be pushed from the main server using the sync API        
-    push_servers:             ["tr8n.net"]       # only allows those servers to push translations
-          
+    push_servers:             ["tr8nhub.com"]       # only allows those servers to push translations
+
 #############################################################################
 # Environment Settings
 # You can overload any feature defined in the defaults for any environment
 #############################################################################
 development:
-  
+
 test:
-      
+
 qa:
 
 stage:
