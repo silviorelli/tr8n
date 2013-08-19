@@ -294,12 +294,12 @@ module Tr8n
 
     def self.default_decoration_tokens
       @default_decoration_tokens ||= load_yml("/config/tr8n/tokens/decorations.yml", nil)
-      @default_decoration_tokens[format]
+      #@default_decoration_tokens[format]
     end
 
     def self.default_data_tokens
       @default_data_tokens ||= load_yml("/config/tr8n/tokens/data.yml", nil)
-      @default_data_tokens[format]
+      #@default_data_tokens[format]
     end
 
     def self.default_glossary
