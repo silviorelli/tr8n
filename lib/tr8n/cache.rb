@@ -78,6 +78,10 @@ module Tr8n
 
       # pp "delete #{key}"
 
+      # MODIFIED - Flushes the redis cache of the main app fragments
+      #Rails.cache.delete_matched("*")
+      Rails.cache.clear
+
       cache.delete(versioned_key(key), opts)
     end
     
