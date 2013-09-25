@@ -73,6 +73,7 @@ class Tr8n::TranslationKey < ActiveRecord::Base
   end
 
   def self.find_or_create(label, desc = "", options = {})
+
     key = generate_key(label, desc).to_s
     tkey = Tr8n::Config.current_source.translation_key_for_key(key)
     tkey ||= begin
@@ -87,18 +88,34 @@ class Tr8n::TranslationKey < ActiveRecord::Base
           raise Tr8n::Exception("Unknown translator role: #{role_key}") unless level 
         end
         locale = options[:locale] || Tr8n::Config.block_options[:default_locale] || Tr8n::Config.default_locale
-        create( :key => key.to_s, 
+        
+        # MODIFIED - does not save the label if comes from tr8n backend
+        if Tr8n::Config.current_source.source.include? "/tr8n/"
+          new( :key => key.to_s, 
                 :label => label, 
                 :description => desc, 
                 :locale => locale,
                 :level => level,
                 :admin => Tr8n::Config.block_options[:admin] )
+        else
+          create( :key => key.to_s, 
+                  :label => label, 
+                  :description => desc, 
+                  :locale => locale,
+                  :level => level,
+                  :admin => Tr8n::Config.block_options[:admin] )
+
+        end
       end
 
-      track_source(existing_key, options)  
+      track_source(existing_key, options) unless Tr8n::Config.current_source.source.include? "/tr8n/" # MODIFIED - Check if in backend to avoid saving the label
       existing_key
     end
   end
+
+  # def create(*)
+  #   nil
+  # end
 
   # creates associations between the translation keys and sources
   # used for the site map and javascript support
