@@ -108,14 +108,10 @@ class Tr8n::TranslationKey < ActiveRecord::Base
         end
       end
 
-      track_source(existing_key, options) unless Tr8n::Config.current_source.source.include? "/tr8n/" # MODIFIED - Check if in backend to avoid saving the label
+      # track_source(existing_key, options) unless Tr8n::Config.current_source.source.include? "/tr8n/" # MODIFIED - Check if in backend to avoid saving the label
       existing_key
     end
   end
-
-  # def create(*)
-  #   nil
-  # end
 
   # creates associations between the translation keys and sources
   # used for the site map and javascript support
