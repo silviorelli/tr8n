@@ -31,7 +31,10 @@
             end 
 
             classes << "current" if current
-            if tr8n_features_tabs.first == tab
+            if tr8n_features_tabs.size == 1 && current
+              classes << "first_current"
+              classes << "last_current" 
+            elsif tr8n_features_tabs.first == tab
               classes << "first" 
               classes << "first_current" if current
             elsif tr8n_features_tabs.last == tab
