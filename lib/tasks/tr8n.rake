@@ -24,7 +24,16 @@
 namespace :tr8n do
   desc "Initializes all of the tables with default data"
   task :init => :environment do
-    raise "This action is prohibited in this environment" if ['production', 'stage', 'staging'].include?(Rails.env)
+    # MODIFIED
+    #raise "This action is prohibited in this environment" if ['production', 'stage', 'staging'].include?(Rails.env)
+    
+    input = ''
+    STDOUT.puts "\n!!!Are you sure? This will Initializes all of the tables with default data!!!"
+    STDOUT.puts "\nType YES to proceed"
+    STDOUT.puts "\n"
+    input = STDIN.gets.chomp
+    raise "\nStopping..." unless input.downcase == "yes"
+
     Tr8n::Config.reset_all!
   end
 
