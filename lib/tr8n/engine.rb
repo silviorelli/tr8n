@@ -27,5 +27,14 @@ module Tr8n
     config.generators do |g|
       g.test_framework :rspec, :view_specs => false
     end
+
+    # MODIFIED
+    # Enabling assets precompiling under rails 3.1
+    if Rails.version >= '3.1'
+      initializer :assets do |config|
+        Rails.application.config.assets.precompile += %w( tr8n/components.css.scss tr8n/layout.css.scss tr8n/styles.css.scss tr8n/tr8n.css.scss tr8n/keyboard_1_49.css )
+      end
+    end
+
   end
 end
