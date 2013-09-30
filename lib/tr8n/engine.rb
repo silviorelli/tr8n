@@ -32,7 +32,7 @@ module Tr8n
     # Enabling assets precompiling under rails 3.1
     if Rails.version >= '3.1'
       initializer :assets do |config|
-        Rails.application.config.assets.precompile += %w( tr8n/components.css tr8n/layout.css tr8n/styles.css tr8n/tr8n.css tr8n/keyboard_1_49.css )
+        Rails.application.config.assets.precompile += %w( tr8n/components.css tr8n/layout.css tr8n/styles.css tr8n/tr8n.css tr8n/keyboard_1_49.css tr8n/tr8n.js)
       end
     end
 
