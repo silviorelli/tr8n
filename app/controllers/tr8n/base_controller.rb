@@ -131,6 +131,9 @@ module Tr8n
 
     # make sure that the current user is a translator
     def validate_current_translator
+
+      logger.info "\n\n\n\ntr8n_current_user_is_translator? #{tr8n_current_user_is_translator?}\n\n\n\n"
+
       if tr8n_current_user_is_translator? and tr8n_current_translator.blocked?
         trfe("Your translation privileges have been revoked. Please contact the site administrator for more details.")
         return redirect_to(Tr8n::Config.default_url)
