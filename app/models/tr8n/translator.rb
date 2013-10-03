@@ -98,9 +98,11 @@ class Tr8n::Translator < ActiveRecord::Base
   def self.for(user)
     return nil unless user and user.id 
     return nil if Tr8n::Config.guest_user?(user)
-    translator = Tr8n::Cache.fetch(cache_key(user.id)) do 
-      find_by_user_id(user.id)
-    end
+    # MODIFIED - cache behaves inconsistently, returns nil sometimes
+    #translator = Tr8n::Cache.fetch(cache_key(user.id)) do 
+    #  find_by_user_id(user.id)
+    #end
+    find_by_user_id(user.id)
   end
   
   def self.find_or_create(user)
