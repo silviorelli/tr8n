@@ -31,11 +31,12 @@ class Tr8n::PhrasesController < Tr8n::BaseController
     # In the embedded mode - there should be only one application
     begin
       #@selected_application = send(:current_application) ##ORIG
-      @selected_application = Tr8n::Config.current_application
+      @selected_application = Tr8n::Config.current_application ##MODIFIED
     rescue Exception
+      logger.info "\n\n\n\neccezione\n\n\n"
       @selected_application = Tr8n::Config.default_application
     end
-
+#raise @selected_application.inspect
     sources = sources_from_params
 
     if sources.any?
@@ -45,17 +46,19 @@ class Tr8n::PhrasesController < Tr8n::BaseController
       return
     end
 
-    @translation_keys = Tr8n::TranslationKey.for_params(params.merge(:application => @selected_application))
+    # @translation_keys = Tr8n::TranslationKey.for_params(params.merge(:application => @selected_application))
 
-    # get a list of all restricted keys
-    restricted_keys = Tr8n::TranslationKey.all_restricted_ids
+    # # get a list of all restricted keys
+    # restricted_keys = Tr8n::TranslationKey.all_restricted_ids
 
-    # exclude all restricted keys
-    if restricted_keys.any?
-      @translation_keys =  @translation_keys.where("id not in (?)", restricted_keys)
-    end
+    # # exclude all restricted keys
+    # if restricted_keys.any?
+    #   @translation_keys =  @translation_keys.where("id not in (?)", restricted_keys)
+    # end
 
-    @translation_keys = @translation_keys.order("created_at desc").page(page).per(per_page)
+    # @translation_keys = @translation_keys.order("created_at desc").page(page).per(per_page)
+
+    @translation_keys = Tr8n::TranslationKey.order("created_at desc").page(page).per(per_page)
 
     if @translation_keys.size == 0
       @translated = 0
