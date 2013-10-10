@@ -76,8 +76,9 @@ class Tr8n::Application < ActiveRecord::Base
 
   def self.for(key)
     Tr8n::Cache.fetch(cache_key(key)) do 
-      where("key = ?", key.to_s).first
-    end  
+      #where("key = ?", key.to_s).first #MODIFIED - key throws a mysql syntax error
+      where("tr8n_applications.key = ?", key.to_s).first
+    end
   end
 
   def self.options
