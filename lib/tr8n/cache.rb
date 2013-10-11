@@ -78,7 +78,8 @@ module Tr8n
 
       # pp "delete #{key}"
 
-      # MODIFIED - Flushes the redis cache of the main app fragments
+      ### MODIFIED - Flushes the redis cache of the main app views fragments
+      ### Rails.cache (Redis db 1) is different from Tr8n::Cache.cache (Redis db 2)
       #Rails.cache.delete_matched("*")
       Rails.cache.clear
 
