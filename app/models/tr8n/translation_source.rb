@@ -81,8 +81,15 @@ class Tr8n::TranslationSource < ActiveRecord::Base
     path
   end
 
-  def self.cache_key(application || Tr8n::Config.current_application, source_name)
-    "source_[#{application.id}]_[#{source_name.to_s}]"
+  def self.cache_key(application, source_name)
+    #MODIFIED
+    if application.blank?
+      "source_[default]_[#{source_name.to_s}]"
+    elsif application.is_a? String
+      "source_[#{application}]_[#{source_name.to_s}]"
+    else
+      "source_[#{application.id}]_[#{source_name.to_s}]"
+    end
   end
 
   def cache_key
