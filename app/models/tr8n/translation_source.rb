@@ -81,7 +81,7 @@ class Tr8n::TranslationSource < ActiveRecord::Base
     path
   end
 
-  def self.cache_key(application, source_name)
+  def self.cache_key(application || Tr8n::Config.current_application, source_name)
     "source_[#{application.id}]_[#{source_name.to_s}]"
   end
 
