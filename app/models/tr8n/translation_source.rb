@@ -82,14 +82,7 @@ class Tr8n::TranslationSource < ActiveRecord::Base
   end
 
   def self.cache_key(application, source_name)
-    #MODIFIED
-    # if application.blank?
-    #   "source_[default]_[#{source_name.to_s}]"
-    # elsif application.is_a? String
-    #   "source_[#{application}]_[#{source_name.to_s}]"
-    # else
-      "source_[#{application.id}]_[#{source_name.to_s}]"
-    #end
+    "source_[#{application.id}]_[#{source_name.to_s}]"
   end
 
   def cache_key
@@ -102,9 +95,6 @@ class Tr8n::TranslationSource < ActiveRecord::Base
   
   def self.find_or_create(source_name, application = Tr8n::Config.current_application)
     return source_name if source_name.is_a?(Tr8n::TranslationSource)
-
-    logger.error "\n\n\napplication:\n#{application.inspect}\n\n\n"
-
     Tr8n::Cache.fetch(cache_key(application, source_name)) do 
       ts = where("application_id = ? and source = ?", application.id, source_name).first 
       ts ||= begin
