@@ -63,7 +63,13 @@ class Tr8n::TranslationKeyLock < ActiveRecord::Base
 
   def self.find_or_create(translation_key, language)
     lock = where("translation_key_id = ? and language_id = ?", translation_key.id, language.id).first
-    lock || create(:translation_key => translation_key, :language => language)
+    
+    # MODIFIED - does not save the label if comes from tr8n backend - avoid saving the label
+    lock || if Tr8n::Config.current_source.source.include? "/tr8n/"
+        new(:translation_key => translation_key, :language => language)
+      else
+        create(:translation_key => translation_key, :language => language)
+      end 
   end
 
   def self.for(translation_key, language)

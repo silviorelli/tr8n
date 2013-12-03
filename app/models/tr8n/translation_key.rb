@@ -64,6 +64,17 @@ class Tr8n::TranslationKey < ActiveRecord::Base
   alias :domains      :translation_domains
   alias :comments     :translation_key_comments
 
+  # MODIFIED
+  attr_accessor :prevent_save
+  attr_accessible :prevent_save
+  validate :check_save_prevention
+
+  def check_save_prevention
+    if self.prevent_save
+      errors.add(:name, "This doesn't have to be saved")
+    end
+  end
+
   def self.cache_key(key_hash)
     "translation_key_[#{key_hash}]"
   end
@@ -89,14 +100,15 @@ class Tr8n::TranslationKey < ActiveRecord::Base
         end
         locale = options[:locale] || Tr8n::Config.block_options[:default_locale] || Tr8n::Config.default_locale
         
-        # MODIFIED - does not save the label if comes from tr8n backend
+        # MODIFIED - does not save the label if comes from tr8n backend - avoid saving the label
         if Tr8n::Config.current_source.source.include? "/tr8n/"
           new( :key => key.to_s, 
                 :label => label, 
                 :description => desc, 
                 :locale => locale,
                 :level => level,
-                :admin => Tr8n::Config.block_options[:admin] )
+                :admin => Tr8n::Config.block_options[:admin],
+                :prevent_save => true )
         else
           create( :key => key.to_s, 
                   :label => label, 
