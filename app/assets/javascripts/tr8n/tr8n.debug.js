@@ -15005,8 +15005,12 @@ Tr8n.Translation = {
   showSuggestion: function(response) {
     if (response == null ||response.data == null || response.data.translations==null || response.data.translations.length == 0) 
       return;
-    var suggestion = response.data.translations[0].translatedText;
 
+    // MODIFIED
+    var encoded_sugg = response.data.translations[0].translatedText;
+    // replacing apostrophes
+    var suggestion = encoded_sugg.replace(/&#39;/g, "\'");
+    
     if (this.suggestion_tokens) {
       var tokens = this.suggestion_tokens.split(",");
       this.suggestion_tokens = null;
